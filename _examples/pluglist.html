@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+
+<body>
+	<div class="selectBody" id="J_selectBody">
+		<div id="base" style="display: none;">
+			<div class="dragBox fullscreen" id="fullscreen" name="全屏"></div>
+			<div class="dragBox source" id="source" style="opacity: 0.5;"
+				name="源码" hasSelected="true"></div>
+			<div class="dragBox undo" id="undo" name="撤销"></div>
+			<div class="dragBox redo" id="redo" name="恢复"></div>
+			<div class="dragBox insertunorderedlist" id="insertunorderedlist"
+				name="无序列表"></div>
+			<div class="dragBox insertorderedlist" id="insertorderedlist"
+				name="有序列表"></div>
+			<div class="dragBox unlink" id="unlink" name="取消链接"></div>
+			<div class="dragBox link" id="link" name="超链接"></div>
+			<div class="dragBox cleardoc" id="cleardoc" name="清空文档"></div>
+			<div class="dragBox selectall" id="selectall" name="全选"></div>
+			<div class="dragBox print" id="print" name="打印"></div>
+			<div class="dragBox searchreplace" id="searchreplace" name="查找替换"></div>
+			<div class="dragBox preview" id="preview" name="预览"></div>
+			<div class="dragBox drafts" id="drafts" name="草稿箱"></div>
+			<div class="dragBox help" id="help" name="帮助"></div>
+			<div class="dragBox separate" id="separate" name="分隔线"></div>
+		</div>
+		<div id="insert" style="display: none;">
+			<div class="dragBox gmap" id="gmap" name="谷歌地图"></div>
+			<div class="dragBox pagebreak" id="pagebreak" name="分页"></div>
+			<div class="dragBox simpleupload" id="simpleupload" name="单图上传"></div>
+			<div class="dragBox insertimage" id="insertimage" name="多图上传"></div>
+			<div class="dragBox scrawl" id="scrawl" name="涂鸦"></div>
+			<div class="dragBox music" id="music" name="音乐"></div>
+			<div class="dragBox snapscreen" id="snapscreen" name="屏幕截图"></div>
+			<div class="dragBox emotion" id="emotion" name="表情"></div>
+			<div class="dragBox insertvideo" id="insertvideo" name="视频"></div>
+			<div class="dragBox attachment" id="attachment" name="附件"></div>
+			<div class="dragBox insertframe" id="insertframe" name="iframe"></div>
+			<div class="dragBox date" id="date" name="日期"></div>
+			<div class="dragBox time" id="time" name="时间"></div>
+			<div class="dragBox wordimage" id="wordimage" name="图片转存"></div>
+			<div class="dragBox map" id="map" name="百度地图"></div>
+			<div class="dragBox webapp" id="webapp" name="百度应用"></div>
+			<div class="dragBox horizontal" id="horizontal" name="水平线"></div>
+			<div class="dragBox anchor" id="anchor" name="锚点"></div>
+			<div class="dragBox spechars" id="spechars" name="特殊字符"></div>
+			<div class="dragBox blockquote" id="blockquote" name="引用"></div>
+			<div class="dragBox pasteplain" id="pasteplain" name="存文本粘贴"></div>
+			<div class="dragBox insertcode" id="insertcode" name="代码"></div>
+			<div class="dragBox template" id="template" name="模板"></div>
+			<div class="dragBox background" id="background" name="背景"></div>
+		</div>
+		<div id="format">
+			<div class="dragBox bold" id="bold" name="加粗"></div>
+			<div class="dragBox italic" id="italic" name="斜体"></div>
+			<div class="dragBox underline" id="underline" name="下划线"></div>
+			<div class="dragBox fontborder" id="fontborder" name="文字边框"></div>
+			<div class="dragBox strikethrough" id="strikethrough" name="删除线"></div>
+			<div class="dragBox forecolor" id="forecolor" name="文字颜色"></div>
+			<div class="dragBox backcolor" id="backcolor" name="背景颜色"></div>
+			<div class="dragBox superscript" id="superscript" name="上标"></div>
+			<div class="dragBox subscript" id="subscript" name="下标"></div>
+			<div class="dragBox justifyleft" id="justifyleft" name="左对齐"></div>
+			<div class="dragBox justifycenter" id="justifycenter" name="居中"></div>
+			<div class="dragBox justifyright" id="justifyright" name="右对齐"></div>
+			<div class="dragBox justifyjustify" id="justifyjustify" name="两端对齐"></div>
+			<div class="dragBox touppercase" id="touppercase" name="字母大写"></div>
+			<div class="dragBox tolowercase" id="tolowercase" name="字母小写"></div>
+			<div class="dragBox directionalityltr" id="directionalityltr"
+				name="从左向右输"></div>
+			<div class="dragBox directionalityrtl" id="directionalityrtl"
+				name="从右向左输"></div>
+			<div class="dragBox indent" id="indent" name="首行缩进"></div>
+			<div class="dragBox removeformat" id="removeformat" name="清除格式"></div>
+			<div class="dragBox formatmatch" id="formatmatch" name="格式刷"></div>
+			<div class="dragBox autotypeset" id="autotypeset" name="自动排版"></div>
+			<div class="dragBox customstyle" id="customstyle" name="自定义标题"></div>
+			<div class="dragBox paragraph" id="paragraph" name="段落格式"></div>
+			<div class="dragBox rowspacingbottom" id="rowspacingbottom"
+				name="段后间距"></div>
+			<div class="dragBox rowspacingtop" id="rowspacingtop" name="段前间距"></div>
+			<div class="dragBox lineheight" id="lineheight" name="行间距"></div>
+			<div class="dragBox fontfamily" id="fontfamily" name="字体"></div>
+			<div class="dragBox fontsize" id="fontsize" name="字号"></div>
+			<div class="dragBox imagenone" id="imagenone" name="图片默认"></div>
+			<div class="dragBox imageleft" id="imageleft" name="图片居左"></div>
+			<div class="dragBox imageright" id="imageright" name="图片居右"></div>
+			<div class="dragBox imagecenter" id="imagecenter" name="图片居中"></div>
+		</div>
+		<div id="table" style="display: none;">
+			<div class="dragBox inserttable" id="inserttable" name="插入表格"></div>
+			<div class="dragBox deletetable" id="deletetable" name="删除表格"></div>
+			<div class="dragBox mergeright" id="mergeright" name="向右合并"></div>
+			<div class="dragBox mergedown" id="mergedown" name="向下合并"></div>
+			<div class="dragBox splittorows" id="splittorows" name="拆分成行"></div>
+			<div class="dragBox splittocols" id="splittocols" name="拆分成列"></div>
+			<div class="dragBox splittocells" id="splittocells" name="拆成单元格"></div>
+			<div class="dragBox mergecells" id="mergecells" name="合并单元格"></div>
+			<div class="dragBox insertcol" id="insertcol" name="前插入列"></div>
+			<div class="dragBox insertrow" id="insertrow" name="前插入行"></div>
+			<div class="dragBox deletecol" id="deletecol" name="删除列"></div>
+			<div class="dragBox deleterow" id="deleterow" name="删除行"></div>
+			<div class="dragBox insertparagraphbeforetable"
+				id="insertparagraphbeforetable" name="表格前插行"></div>
+			<div class="dragBox charts" id="charts" name="生成图表"></div>
+		</div>
+	</div>
+	<div class="config" id="J_config">
+		<label><input class="U_config" type="checkbox"
+			_key="autofloatenabled">自动浮动</label><label><input
+			class="U_config" type="checkbox" _key="autoheightenabled">自动长高</label><label><input
+			class="U_config" type="checkbox" _key="autolink">自动加超链接</label><label><input
+			class="U_config" type="checkbox" _key="autosubmit">自动提交</label><label><input
+			class="U_config" type="checkbox" _key="autosave">自动保存草稿</label><label><input
+			class="U_config" type="checkbox" _key="autoupload">拖放图片自动上传和粘贴QQ截图</label><label><input
+			class="U_config" type="checkbox" _key="catchremoteimageenable">抓取远程图片</label><label><input
+			class="U_config" type="checkbox" _key="wordcount">字数统计</label><label><input
+			class="U_config" type="checkbox" _key="elementpath">元素路径</label><label><input
+			class="U_config" type="checkbox" _key="insertparagraph">前插后插段落</label><label><input
+			class="U_config" type="checkbox" _key="shortcutmenu">快捷菜单</label><label><input
+			class="U_config" type="checkbox" _key="contextmenu">右键菜单</label><label><input
+			class="U_config" type="checkbox" _key="section">目录大纲支持</label>
+	</div>
+</body>
+</html>
+
+</body>
+</html>
