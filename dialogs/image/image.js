@@ -823,7 +823,7 @@
                 var target = e.target || e.srcElement,
                     li = target.parentNode;
 
-                if (li.tagName.toLowerCase() == 'li') {
+                if (li.tagName.toLowerCase() == 'li' && li.getAttribute('flag')=='file') {
                     if (domUtils.hasClass(li, 'selected')) {
                         domUtils.removeClasses(li, 'selected');
                     } else {
@@ -862,7 +862,8 @@
                     'dataType': isJsonp ? 'jsonp':'',
                     'data': utils.extend({
                         start: this.listIndex,
-                        size: this.listSize
+                        size: this.listSize,
+                        prefix:this.listPrefix //老岩增加
                     }, editor.queryCommandValue('serverparam')),
                     'method': 'get',
                     'onsuccess': function (r) {
@@ -894,14 +895,14 @@
         },
         /* 添加图片到列表界面上 */
         pushData: function (list) {
-            var i, item, img, icon, _this = this,
+            var i, item, img, icon, preview, filetype, _this = this,
                 urlPrefix = editor.getOpt('imageManagerUrlPrefix');
             for (i = 0; i < list.length; i++) {
                 if(list[i] && list[i].url) {
                     item = document.createElement('li');
-                    img = document.createElement('img');
                     icon = document.createElement('span');
-
+										/*
+										img = document.createElement('img');
                     domUtils.on(img, 'load', (function(image){
                         return function(){
                             _this.scale(image, image.parentNode.offsetWidth, image.parentNode.offsetHeight);
@@ -910,9 +911,73 @@
                     img.width = 113;
                     img.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
                     img.setAttribute('_src', urlPrefix + list[i].url);
-                    domUtils.addClass(icon, 'icon');
-
                     item.appendChild(img);
+									*/
+									//////////////以下深山老岩增加
+                    if (list[i].flag=='file') {
+                    		filetype = list[i].url.substr(list[i].url.lastIndexOf('.') + 1);
+                    		if ("png|jpg|jpeg|gif|bmp".indexOf(filetype) != -1){
+		                        preview = document.createElement('img');
+		                        domUtils.on(preview, 'load', (function(image){
+		                            return function(){
+		                                _this.scale(image, image.parentNode.offsetWidth, image.parentNode.offsetHeight);
+		                            };
+		                        })(preview));
+		                        preview.width = 113;
+		                        preview.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
+		              			preview.setAttribute('_src', urlPrefix + list[i].url);
+	              			}else{
+	              				continue;//不显示非图片;
+		              			var ic = document.createElement('i'),
+                        		textSpan = document.createElement('span');
+			                    textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/') + 1);
+			                    preview = document.createElement('div');
+			                    preview.appendChild(ic);
+			                    preview.appendChild(textSpan);
+			                    domUtils.addClass(preview, 'file-wrapper');
+			                    domUtils.addClass(textSpan, 'file-title');
+			                    domUtils.addClass(ic, 'file-type-' + filetype);
+			                    domUtils.addClass(ic, 'file-preview');
+		              		}
+		             }else if(list[i].flag=='path'){
+		            	  	var ic = document.createElement('i'),
+	                    		textSpan = document.createElement('span');
+		                    textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/')+1);
+		                    //textSpan.setAttribute('style','text-align:center;display:block;');
+		                    preview = document.createElement('div');
+		                    preview.appendChild(ic);
+		                    preview.appendChild(textSpan);
+		                    domUtils.addClass(preview, 'file-wrapper');
+		                    domUtils.addClass(textSpan, 'file-title');
+		                    domUtils.addClass(ic, 'file-type-dir');
+		                    domUtils.addClass(ic, 'file-preview');
+		                    domUtils.on(item, 'dblclick', function (e) {
+				                    var ie=!!window.ActiveXObject;
+									var ie6=ie&&!window.XMLHttpRequest;
+									var pathtext;
+									if (ie6){
+											pathtext=this.parentNode.getAttribute("data-url");
+									}else{
+											pathtext=this.getAttribute("data-url");
+									};
+									//ie6下无语,怎么会这样??
+			                    	if (pathtext.indexOf('..')>0){
+			                    		 	pathtext = pathtext.substr(0,pathtext.lastIndexOf('/'));
+			                    		 	_this.listPrefix = pathtext.substr(0,pathtext.lastIndexOf('/'));
+			                    	}else{
+			                    			_this.listPrefix = pathtext;
+			                    	}		
+	            					_this.reset();
+					        });
+		            }
+
+					if (list[i].flag) {
+                        item.setAttribute('flag', list[i].flag);
+                    }
+                    item.appendChild(preview);
+                    //////////////////////////////////////////////修改结束
+                    domUtils.addClass(icon, 'icon');
+                    item.setAttribute('data-url', list[i].url);
                     item.appendChild(icon);
                     this.list.insertBefore(item, this.clearFloat);
                 }

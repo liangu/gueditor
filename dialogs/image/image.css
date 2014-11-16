@@ -892,3 +892,114 @@
 #search .searchList .clearFloat{
     clear: both;
 }
+/* 在线文件的文件预览图标 */
+.file-title{
+    display: block;
+    padding: 0 3px;
+    margin: 3px 0 0 0;
+    font-size: 12px;
+    line-height: 13px;
+    color: #555555;
+    text-align: center;
+    width: 107px;
+    white-space: nowrap;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+i.file-preview {
+    display: block;
+    margin: 10px auto;
+    width: 70px;
+    height: 70px;
+    background-image: url("images/file-icons.png");
+    background-image: url("images/file-icons.gif") \9;
+    background-position: -140px center;
+    background-repeat: no-repeat;
+}
+i.file-preview.file-type-dir{
+    background-position: 0 center;
+}
+i.file-preview.file-type-file{
+    background-position: -140px center;
+}
+i.file-preview.file-type-filelist{
+    background-position: -210px center;
+}
+i.file-preview.file-type-zip,
+i.file-preview.file-type-rar,
+i.file-preview.file-type-7z,
+i.file-preview.file-type-tar,
+i.file-preview.file-type-gz,
+i.file-preview.file-type-bz2{
+    background-position: -280px center;
+}
+i.file-preview.file-type-xls,
+i.file-preview.file-type-xlsx{
+    background-position: -350px center;
+}
+i.file-preview.file-type-doc,
+i.file-preview.file-type-docx{
+    background-position: -420px center;
+}
+i.file-preview.file-type-ppt,
+i.file-preview.file-type-pptx{
+    background-position: -490px center;
+}
+i.file-preview.file-type-vsd{
+    background-position: -560px center;
+}
+i.file-preview.file-type-pdf{
+    background-position: -630px center;
+}
+i.file-preview.file-type-txt,
+i.file-preview.file-type-md,
+i.file-preview.file-type-json,
+i.file-preview.file-type-htm,
+i.file-preview.file-type-xml,
+i.file-preview.file-type-html,
+i.file-preview.file-type-js,
+i.file-preview.file-type-css,
+i.file-preview.file-type-php,
+i.file-preview.file-type-jsp,
+i.file-preview.file-type-asp{
+    background-position: -700px center;
+}
+i.file-preview.file-type-apk{
+    background-position: -770px center;
+}
+i.file-preview.file-type-exe{
+    background-position: -840px center;
+}
+i.file-preview.file-type-ipa{
+    background-position: -910px center;
+}
+i.file-preview.file-type-mp4,
+i.file-preview.file-type-swf,
+i.file-preview.file-type-mkv,
+i.file-preview.file-type-avi,
+i.file-preview.file-type-flv,
+i.file-preview.file-type-mov,
+i.file-preview.file-type-mpg,
+i.file-preview.file-type-mpeg,
+i.file-preview.file-type-ogv,
+i.file-preview.file-type-webm,
+i.file-preview.file-type-rm,
+i.file-preview.file-type-rmvb{
+    background-position: -980px center;
+}
+i.file-preview.file-type-ogg,
+i.file-preview.file-type-wav,
+i.file-preview.file-type-wmv,
+i.file-preview.file-type-mid,
+i.file-preview.file-type-mp3{
+    background-position: -1050px center;
+}
+i.file-preview.file-type-jpg,
+i.file-preview.file-type-jpeg,
+i.file-preview.file-type-gif,
+i.file-preview.file-type-bmp,
+i.file-preview.file-type-png,
+i.file-preview.file-type-psd{
+    background-position: -140px center;
+}

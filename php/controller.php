@@ -1,41 +1,66 @@
 <?php
 //header('Access-Control-Allow-Origin: http://www.baidu.com'); //设置http://www.baidu.com允许跨域访问
 //header('Access-Control-Allow-Headers: X-Requested-With,X_Requested_With'); //设置允许的跨域header
-date_default_timezone_set("Asia/chongqing");
-error_reporting(E_ERROR);
-header("Content-Type: text/html; charset=utf-8");
-
+//date_default_timezone_set("Asia/chongqing");
+//error_reporting(E_ERROR);
+//header("Content-Type: text/html; charset=utf-8");
+require_once(dirname(__FILE__)."/../../common.inc.php");
+require_once(dirname(__FILE__)."/../../userlogin.class.php");
+require_once(dirname(__FILE__)."/../../memberlogin.class.php");
 $CONFIG = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("config.json")), true);
 $action = $_GET['action'];
-
+list($act,$filepath)=explode("-",$action);
+$cuserLogin = new userLogin();
+$usr_basedir="";
+if($cuserLogin->getUserID() <=0 )//非管理员
+{
+		$cfg_ml = new MemberLogin(-1);
+		$mid=$cfg_ml->M_ID;
+		if ($mid>0){
+		    $activepath = $cfg_user_dir."/".$mid;
+		    $usr_basedir= $activepath;
+		}else{
+				die("请登录后使用!");
+		};
+}else{
+		$activepath=$cfg_medias_dir."/".$filepath;
+		$usr_basedir=$activepath;
+	  $nowtme = time();
+	  $newdir = MyDate($cfg_addon_savetype, $nowtme);
+    $activepath = $activepath.'/'.$newdir;
+}
+if(!is_dir($cfg_basedir.$activepath))
+{
+    MkdirAll($cfg_basedir.$activepath,$cfg_dir_purview);
+}
 switch ($action) {
     case 'config':
         $result =  json_encode($CONFIG);
         break;
 
     /* 上传图片 */
-    case 'uploadimage':
+    case 'upload-image':
     /* 上传涂鸦 */
-    case 'uploadscrawl':
+    case 'upload-scrawl':
     /* 上传视频 */
-    case 'uploadvideo':
+    case 'upload-video':
     /* 上传文件 */
-    case 'uploadfile':
-        $result = include("action_upload.php");
+    case 'upload-file':
+        $result = include("dede_upload.php");
         break;
 
     /* 列出图片 */
-    case 'listimage':
-        $result = include("action_list.php");
+    case 'list-image':
+        $result = include("dede_list.php");
         break;
     /* 列出文件 */
-    case 'listfile':
-        $result = include("action_list.php");
+    case 'list-file':
+        $result = include("dede_list.php");
         break;
 
     /* 抓取远程文件 */
-    case 'catchimage':
-        $result = include("action_crawler.php");
+    case 'catch-image':
+        $result = include("dede_crawler.php");
         break;
 
     default:
