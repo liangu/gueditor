@@ -6,7 +6,6 @@
  * Time: 上午10:17
  */
 include "Uploader.class.php";
-
 /* 上传配置 */
 $base64 = "upload";
 $activepath.="/";
@@ -50,7 +49,34 @@ switch (htmlspecialchars($_GET['action'])) {
 
 /* 生成上传实例对象并完成上传 */
 $up = new Uploader($fieldName, $config, $base64);
-
+$res=$up->getFileInfo();
+$imgfile_type=$res["type"];
+$fullfilename=$cfg_basedir.$res["url"];
+$filename=$res["title"];
+$sizes[0] = 0; $sizes[1] = 0;
+$mediatype=4;
+if(strpos(".png.jpg.jpeg.gif.bmp",$imgfile_type)>=0){
+	$mediatype=1;
+	require_once(dirname(__FILE__)."/../../image.func.php");
+	if($resize==1)
+	{
+		ImageResize($fullfilename, $iwidth, $iheight);
+	}
+	else
+	{
+		WaterImg($fullfilename, 'up');
+	}
+	$info = '';
+	$sizes = getimagesize($fullfilename, $info);
+}
+$imgsize = $res["size"];
+$imgwidthValue = $sizes[0];
+$imgheightValue = $sizes[1];
+$inquery = "INSERT INTO `#@__uploads`(arcid,title,url,mediatype,width,height,playtime,filesize,uptime,mid)
+VALUES ('0','$filename','".$activepath."/".$filename."',".$mediatype.",'$imgwidthValue','$imgheightValue','0','{$imgsize}','{$nowtme}','".$cuserLogin->getUserID()."'); ";
+$dsql->ExecuteNoneQuery($inquery);
+$fid = $dsql->GetLastID();
+AddMyAddon($fid, $activepath.'/'.$filename);
 /**
  * 得到上传文件所对应的各个参数,数组结构
  * array(
@@ -64,4 +90,4 @@ $up = new Uploader($fieldName, $config, $base64);
  */
 
 /* 返回数据 */
-return json_encode($up->getFileInfo());
+return json_encode($res);

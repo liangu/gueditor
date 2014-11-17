@@ -14,20 +14,20 @@ $cuserLogin = new userLogin();
 $usr_basedir="";
 if($cuserLogin->getUserID() <=0 )//非管理员
 {
-		$cfg_ml = new MemberLogin(-1);
-		$mid=$cfg_ml->M_ID;
-		if ($mid>0){
-		    $activepath = $cfg_user_dir."/".$mid;
-		    $usr_basedir= $activepath;
-		}else{
-				die("请登录后使用!");
-		};
+	$cfg_ml = new MemberLogin(-1);
+	$mid=$cfg_ml->M_ID;
+	if ($mid>0){
+	    $activepath = $cfg_user_dir."/".$mid;
+	    $usr_basedir= $activepath;
+	}else{
+		die("请登录后使用!");
+	};
 }else{
-		$activepath=$cfg_medias_dir."/".$filepath;
-		$usr_basedir=$activepath;
-	  $nowtme = time();
-	  $newdir = MyDate($cfg_addon_savetype, $nowtme);
-    $activepath = $activepath.'/'.$newdir;
+	$activepath = $cfg_medias_dir . "/" . $filepath;
+	$usr_basedir = $activepath;
+	$nowtme = time ();
+	$newdir = MyDate ( $cfg_addon_savetype, $nowtme );
+	$activepath = $activepath . '/' . $newdir;
 }
 if(!is_dir($cfg_basedir.$activepath))
 {

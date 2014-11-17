@@ -952,10 +952,8 @@
 		                    domUtils.addClass(ic, 'file-type-dir');
 		                    domUtils.addClass(ic, 'file-preview');
 		                    domUtils.on(item, 'dblclick', function (e) {
-				                    var ie=!!window.ActiveXObject;
-									var ie6=ie&&!window.XMLHttpRequest;
 									var pathtext;
-									if (ie6){
+									if (browser.ie && browser.version <= 7){
 											pathtext=this.parentNode.getAttribute("data-url");
 									}else{
 											pathtext=this.getAttribute("data-url");

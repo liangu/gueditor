@@ -41,6 +41,8 @@ module.exports = function (grunt) {
         packageJson = grunt.file.readJSON('package.json'),
         server = grunt.option('server') || 'php',
         encode = grunt.option('encode') || 'utf8',
+        toolbar= grunt.option('toolbar')|| '"fullscreen","source","|","undo","redo","|","pasteplain","formatmatch","removeformat","|","fontfamily","fontsize","|","forecolor","backcolor","bold","italic","underline","strikethrough","superscript","subscript","|","spechars","horizontal"],["paragraph","justifyleft","justifycenter","justifyright","justifyjustify","indent","lineheight","insertorderedlist","|","insertimage","insertvideo","attachment","|","inserttable","link","unlink","anchor","|","wordimage","template","autotypeset","searchreplace","preview","print"',
+        dialog = grunt.option('dialog') || ['dialogs/internal.js','dialogs/anchor/**','dialogs/attachment/**','dialogs/image/**','dialogs/link/**','dialogs/preview/**','dialogs/searchreplace/**','dialogs/spechars/**','dialogs/table/**','dialogs/template/**','dialogs/video/**','dialogs/wordimage/**'],
         disDir = "dist/",
         banner = '/*!\n * ' + packageJson.name + '\n * version: ' + packageJson.version + '\n * build: <%= new Date() %>\n */\n\n';
 
@@ -117,9 +119,17 @@ module.exports = function (grunt) {
                 files: [
                     {
 
-                        src: [ '*.html', 'themes/iframe.css', 'themes/default/dialogbase.css', 'themes/default/images/**', 'dialogs/**', 'lang/**', 'third-party/**' ],
+                        src: [ '*.html', 'themes/iframe.css', 'themes/default/dialogbase.css', 'themes/default/images/**', 'lang/**', 'third-party/**' ],
                         dest: disDir
 
+                    }
+                ]
+            },
+            dialog: {
+                files: [
+                    {
+                        src:  dialog,
+                        dest: disDir
                     }
                 ]
             },
@@ -258,7 +268,7 @@ module.exports = function (grunt) {
             suffix = server === "net" ? ".ashx" : "." + server;
 
         file = file.replace(/php\//ig, path).replace(/\.php/ig, suffix);
-
+        file = file.replace(/toolbars: \[\[.*\]\]/ig, 'toolbars: [['+ toolbar+']]');
         if (encode == 'gbk') {
             file = file.replace(/utf-8/gi, 'gbk');
         }

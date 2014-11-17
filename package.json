@@ -1,7 +1,7 @@
 {
-    "name": "ueditor",
-    "title": "ueditor",
-    "description": "UEditor富文本web编辑器",
+    "name": "gueditor",
+    "title": "gueditor",
+    "description": "GUEditor富文本web编辑器",
     "version": "1.4.3",
     "homepage": "http://ueditor.baidu.com/",
     "author": {
@@ -32,5 +32,6 @@
     },
     "devDependencies": {
         "grunt": "~0.4.1"
+    }
     }
 }
