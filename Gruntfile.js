@@ -12,13 +12,13 @@ module.exports = function (grunt) {
             fetchScripts: function (readFile, basePath) {
 
                 var sources = fs.readFileSync(readFile);
-                sources = /\[([^\]]+\.js'[^\]]+)\]/.exec(sources);
-                sources = sources[1].replace(/\/\/[\s\S]*\n/g, '\n').replace(/'|"|\n|\t|\s/g, '');
+                sources = /\[([^\]]+\.js[^\]]+)\]/.exec(sources);
+                sources = sources[1].replace(/\/\/[^\n]+\n/g, '\n').replace(/'|"|\n|\t|\s/g, '');
                 sources = sources.split(",");
                 sources.forEach(function (filepath, index) {
                     sources[ index ] = basePath + filepath;
                 });
-
+                grunt.log.writeln(sources);
                 return sources;
             },
 

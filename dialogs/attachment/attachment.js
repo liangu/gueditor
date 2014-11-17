@@ -626,6 +626,11 @@
             /* 第一次拉取数据 */
             this.getFileData();
         },
+	/*reset face*/
+	reset: function() {
+	    this.initContainer();
+	    this.initData();
+	},
         /* 向后台拉取文件列表数据 */
         getFileData: function () {
             var _this = this;
