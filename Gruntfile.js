@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 
                 var sources = fs.readFileSync(readFile);
                 sources = /\[([^\]]+\.js'[^\]]+)\]/.exec(sources);
-                sources = sources[1].replace(/\/\/.*\n/g, '\n').replace(/'|"|\n|\t|\s/g, '');
+                sources = sources[1].replace(/\/\/[\s\S]*\n/g, '\n').replace(/'|"|\n|\t|\s/g, '');
                 sources = sources.split(",");
                 sources.forEach(function (filepath, index) {
                     sources[ index ] = basePath + filepath;
@@ -241,7 +241,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('default', 'UEditor build', function () {
 
-        var tasks = [ 'concat', 'cssmin', 'closurecompiler', 'copy:base', 'copy:' + server, 'copy:demo', 'replace:demo', 'clean' ];
+        var tasks = [ 'concat', 'cssmin', 'closurecompiler', 'copy:base','copy:dialog', 'copy:' + server, 'copy:demo', 'replace:demo', 'clean' ];
 
         if (encode === 'gbk') {
             tasks.push('replace:fileEncode');
@@ -268,7 +268,7 @@ module.exports = function (grunt) {
             suffix = server === "net" ? ".ashx" : "." + server;
 
         file = file.replace(/php\//ig, path).replace(/\.php/ig, suffix);
-        file = file.replace(/toolbars: \[\[.*\]\]/ig, 'toolbars: [['+ toolbar+']]');
+        file = file.replace(/toolbars[\s\S]*\]\]/ig, 'toolbars: [['+ toolbar+']]');
         if (encode == 'gbk') {
             file = file.replace(/utf-8/gi, 'gbk');
         }
