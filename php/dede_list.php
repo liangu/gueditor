@@ -29,7 +29,7 @@ $prefix = isset($_GET['prefix']) ? htmlspecialchars($_GET['prefix']) : "/$newdir
 $end = $start + $size;
 
 /* 获取文件列表 */
-$path = $cfg_basedir ."/".$usr_basedir.$prefix;
+$path = $cfg_basedir .(substr($usr_basedir, 0, 1) == "/" ? "":"/").$usr_basedir."/".$prefix;
 $files = getfiles($path, $allowFiles);
 $list=array();
 if ($start==0) $list[] = array('flag'=>'path','url'=>"$prefix/..",'mtime'=>'');
