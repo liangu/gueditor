@@ -638,10 +638,11 @@
             if(!_this.listEnd && !this.isLoadingData) {
                 this.isLoadingData = true;
                 ajax.request(editor.getActionUrl(editor.getOpt('fileManagerActionName')), {
-                    timeout: 100000,
-                    data: utils.extend({
+                    'timeout': 100000,
+                    'data': utils.extend({
                             start: this.listIndex,
-                            size: this.listSize
+                            size: this.listSize,
+			    prefix: this.listPrefix
                         }, editor.queryCommandValue('serverparam')),
                     method: 'get',
                     onsuccess: function (r) {
