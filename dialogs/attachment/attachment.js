@@ -642,7 +642,7 @@
                     'data': utils.extend({
                             start: this.listIndex,
                             size: this.listSize,
-			    prefix: this.listPrefix
+                            prefix: this.listPrefix
                         }, editor.queryCommandValue('serverparam')),
                     method: 'get',
                     onsuccess: function (r) {
@@ -650,8 +650,8 @@
                             var json = eval('(' + r.responseText + ')');
                             if (json.state == 'SUCCESS') {
                                 _this.pushData(json.list);
-                                _this.listIndex = parseInt(json.start) + parseInt(json.list.length);
-                                if(_this.listIndex >= json.total) {
+                                _this.listIndex = json.start;
+                                if(json.total < _this.listSize) {
                                     _this.listEnd = true;
                                 }
                                 _this.isLoadingData = false;
@@ -694,57 +694,59 @@
 					*/
 									
                     if (list[i].flag=='file') {
-                    		filetype = list[i].url.substr(list[i].url.lastIndexOf('.') + 1);
-                    		if ("png|jpg|jpeg|gif|bmp".indexOf(filetype) != -1){
-		                        preview = document.createElement('img');
-		                        domUtils.on(preview, 'load', (function(image){
-		                            return function(){
-		                                _this.scale(image, image.parentNode.offsetWidth, image.parentNode.offsetHeight);
-		                            };
-		                        })(preview));
-		                        preview.width = 113;
-		                        preview.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
-		              					preview.setAttribute('_src', urlPrefix + list[i].url);
-		              		}else{
-			              		var ic = document.createElement('i'),
-                        		textSpan = document.createElement('span');
-			                    textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/') + 1);
-			                    preview = document.createElement('div');
-			                    preview.setAttribute('_src', urlPrefix + list[i].url);
-			                    preview.appendChild(ic);
-			                    preview.appendChild(textSpan);
-			                    domUtils.addClass(preview, 'file-wrapper');
-			                    domUtils.addClass(textSpan, 'file-title');
-			                    domUtils.addClass(ic, 'file-type-' + filetype);
-			                    domUtils.addClass(ic, 'file-preview');
-			              	}
-	              }else if(list[i].flag=='path'){
-						var ic = document.createElement('i'),
+                		filetype = list[i].url.substr(list[i].url.lastIndexOf('.') + 1);
+                		if ("png|jpg|jpeg|gif|bmp".indexOf(filetype) != -1){
+	                        preview = document.createElement('img');
+	                        domUtils.on(preview, 'load', (function(image){
+	                            return function(){
+	                                _this.scale(image, image.parentNode.offsetWidth, image.parentNode.offsetHeight);
+	                            };
+	                        })(preview));
+	                        preview.width = 113;
+	                        preview.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
+	              					preview.setAttribute('_src', urlPrefix + list[i].url);
+	              		}else{
+		              		var ic = document.createElement('i'),
                     		textSpan = document.createElement('span');
-		                    textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/')+1);
+		                    textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/') + 1);
 		                    preview = document.createElement('div');
+		                    preview.setAttribute('_src', urlPrefix + list[i].url);
 		                    preview.appendChild(ic);
 		                    preview.appendChild(textSpan);
 		                    domUtils.addClass(preview, 'file-wrapper');
 		                    domUtils.addClass(textSpan, 'file-title');
-		                    domUtils.addClass(ic, 'file-type-dir');
+		                    domUtils.addClass(ic, 'file-type-' + filetype);
 		                    domUtils.addClass(ic, 'file-preview');
-		                    domUtils.on(item, 'dblclick', function (e) {
-								var pathtext;
-								if (browser.ie && browser.version <= 7){
-										pathtext=this.parentNode.getAttribute("data-url");
-								}else{
-										pathtext=this.getAttribute("data-url");
-								};
-								//ie6下无语,怎么会这样??
-		                    	if (pathtext.indexOf('..')>0){
-		                    		 	pathtext = pathtext.substr(0,pathtext.lastIndexOf('/'));
-		                    		 	_this.listPrefix = pathtext.substr(0,pathtext.lastIndexOf('/'));
-		                    	}else{
-		                    			_this.listPrefix = pathtext;
-		                    	}		
-            					_this.reset();
-						    });
+		              	}
+	              }else if(list[i].flag=='path'){
+						var ic = document.createElement('i'),
+                		textSpan = document.createElement('span');
+                		pathtext = list[i].url.substr(0,list[i].url.lastIndexOf('/'));
+	                    textSpan.innerHTML = pathtext.substr(pathtext.lastIndexOf('/') + 1);
+	                    //textSpan.setAttribute('style','text-align:center;display:block;');
+	                    preview = document.createElement('div');
+	                    preview.appendChild(ic);
+	                    preview.appendChild(textSpan);
+	                    domUtils.addClass(preview, 'file-wrapper');
+	                    domUtils.addClass(textSpan, 'file-title');
+	                    domUtils.addClass(ic, 'file-type-dir');
+	                    domUtils.addClass(ic, 'file-preview');
+	                    domUtils.on(item, 'dblclick', function (e) {
+							var pathtext;
+							if (browser.ie && browser.version <= 7){
+									pathtext=this.parentNode.getAttribute("data-url");
+							}else{
+									pathtext=this.getAttribute("data-url");
+							};
+							//ie6下无语,怎么会这样??
+	                    	if (pathtext=="../"){
+                    		 	_this.listPrefix = _this.listPrefix.substr(0,_this.listPrefix.lastIndexOf('/'));
+                    		 	_this.listPrefix = _this.listPrefix.substr(0,_this.listPrefix.lastIndexOf('/')==0?0:_this.listPrefix.lastIndexOf('/')+1);
+	                    	}else{
+	                    			_this.listPrefix = pathtext;
+	                    	}
+        					_this.reset();
+					    });
                     }
                     domUtils.addClass(icon, 'icon');
                     item.setAttribute('data-url', list[i].url);

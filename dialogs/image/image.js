@@ -861,18 +861,18 @@
                     'timeout': 100000,
                     'dataType': isJsonp ? 'jsonp':'',
                     'data': utils.extend({
-                        start: this.listIndex,
-                        size: this.listSize,
-                        prefix:this.listPrefix //老岩增加
-                    }, editor.queryCommandValue('serverparam')),
+                            start: this.listIndex,
+                            size: this.listSize,
+                            prefix:this.listPrefix //老岩增加
+                        }, editor.queryCommandValue('serverparam')),
                     'method': 'get',
                     'onsuccess': function (r) {
                         try {
                             var json = isJsonp ? r:eval('(' + r.responseText + ')');
                             if (json.state == 'SUCCESS') {
                                 _this.pushData(json.list);
-                                _this.listIndex = parseInt(json.start) + parseInt(json.list.length);
-                                if(_this.listIndex >= json.total) {
+                                _this.listIndex = json.start;
+                                if(json.total < _this.listSize) {
                                     _this.listEnd = true;
                                 }
                                 _this.isLoadingData = false;
@@ -901,8 +901,8 @@
                 if(list[i] && list[i].url) {
                     item = document.createElement('li');
                     icon = document.createElement('span');
-										/*
-										img = document.createElement('img');
+					/*
+					img = document.createElement('img');
                     domUtils.on(img, 'load', (function(image){
                         return function(){
                             _this.scale(image, image.parentNode.offsetWidth, image.parentNode.offsetHeight);
@@ -912,8 +912,8 @@
                     img.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
                     img.setAttribute('_src', urlPrefix + list[i].url);
                     item.appendChild(img);
-									*/
-									//////////////以下深山老岩增加
+					*/
+					//////////////以下深山老岩增加
                     if (list[i].flag=='file') {
                     		filetype = list[i].url.substr(list[i].url.lastIndexOf('.') + 1);
                     		if ("png|jpg|jpeg|gif|bmp".indexOf(filetype) != -1){
@@ -926,48 +926,50 @@
 		                        preview.width = 113;
 		                        preview.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
 		              			preview.setAttribute('_src', urlPrefix + list[i].url);
-	              			}else{
-	              				continue;//不显示非图片;
-		              			var ic = document.createElement('i'),
-                        		textSpan = document.createElement('span');
-			                    textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/') + 1);
-			                    preview = document.createElement('div');
-			                    preview.appendChild(ic);
-			                    preview.appendChild(textSpan);
-			                    domUtils.addClass(preview, 'file-wrapper');
-			                    domUtils.addClass(textSpan, 'file-title');
-			                    domUtils.addClass(ic, 'file-type-' + filetype);
-			                    domUtils.addClass(ic, 'file-preview');
-		              		}
-		             }else if(list[i].flag=='path'){
-		            	  	var ic = document.createElement('i'),
-	                    		textSpan = document.createElement('span');
-		                    textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/')+1);
-		                    //textSpan.setAttribute('style','text-align:center;display:block;');
-		                    preview = document.createElement('div');
-		                    preview.appendChild(ic);
-		                    preview.appendChild(textSpan);
-		                    domUtils.addClass(preview, 'file-wrapper');
-		                    domUtils.addClass(textSpan, 'file-title');
-		                    domUtils.addClass(ic, 'file-type-dir');
-		                    domUtils.addClass(ic, 'file-preview');
-		                    domUtils.on(item, 'dblclick', function (e) {
-									var pathtext;
-									if (browser.ie && browser.version <= 7){
-											pathtext=this.parentNode.getAttribute("data-url");
-									}else{
-											pathtext=this.getAttribute("data-url");
-									};
-									//ie6下无语,怎么会这样??
-			                    	if (pathtext.indexOf('..')>0){
-			                    		 	pathtext = pathtext.substr(0,pathtext.lastIndexOf('/'));
-			                    		 	_this.listPrefix = pathtext.substr(0,pathtext.lastIndexOf('/'));
-			                    	}else{
-			                    			_this.listPrefix = pathtext;
-			                    	}		
-	            					_this.reset();
-					        });
-		            }
+							}else{
+		              				continue;//不显示非图片;
+			              			var ic = document.createElement('i'),
+                            		textSpan = document.createElement('span');
+				                    textSpan.innerHTML = list[i].url.substr(list[i].url.lastIndexOf('/') + 1);
+				                    preview = document.createElement('div');
+				                    preview.appendChild(ic);
+				                    preview.appendChild(textSpan);
+				                    domUtils.addClass(preview, 'file-wrapper');
+				                    domUtils.addClass(textSpan, 'file-title');
+				                    domUtils.addClass(ic, 'file-type-' + filetype);
+				                    domUtils.addClass(ic, 'file-preview');
+			              		}
+			                }else if(list[i].flag=='path'){
+									var ic = document.createElement('i'),
+                            		textSpan = document.createElement('span');
+                            		pathtext = list[i].url.substr(0,list[i].url.lastIndexOf('/'));
+				                    textSpan.innerHTML = pathtext.substr(pathtext.lastIndexOf('/') + 1);
+				                    //textSpan.setAttribute('style','text-align:center;display:block;');
+				                    preview = document.createElement('div');
+				                    preview.appendChild(ic);
+				                    preview.appendChild(textSpan);
+				                    domUtils.addClass(preview, 'file-wrapper');
+				                    domUtils.addClass(textSpan, 'file-title');
+				                    domUtils.addClass(ic, 'file-type-dir');
+				                    domUtils.addClass(ic, 'file-preview');
+				                    domUtils.on(item, 'dblclick', function (e) {
+										var pathtext;
+										if (browser.ie && browser.version <= 7){
+												pathtext=this.parentNode.getAttribute("data-url");
+										}else{
+												pathtext=this.getAttribute("data-url");
+										};
+										//ie6下无语,怎么会这样??
+																
+				                    	if (pathtext=="../"){
+				                    		 	_this.listPrefix = _this.listPrefix.substr(0,_this.listPrefix.lastIndexOf('/'));
+				                    		 	_this.listPrefix = _this.listPrefix.substr(0,_this.listPrefix.lastIndexOf('/')==0?0:_this.listPrefix.lastIndexOf('/')+1);
+				                    	}else{
+				                    			_this.listPrefix = pathtext;
+				                    	}		
+                    					_this.reset();
+								    });
+                    }
 
 					if (list[i].flag) {
                         item.setAttribute('flag', list[i].flag);
