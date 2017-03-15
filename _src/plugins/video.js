@@ -32,8 +32,9 @@ UE.plugins['video'] = function (){
                 var ext = url.substr(url.lastIndexOf('.') + 1);
                 if(ext == 'ogv') ext = 'ogg';
                 if(ext == 'flv'){
+                	url=url.replace(/(.*?)file\=/gi, '')
                 	str = '<embed type="application/x-shockwave-flash" class="' + classname + '" pluginspage="http://www.macromedia.com/go/getflashplayer"' +
-                    ' src="../../third-party/flvplayer/flvplayer.swf?file='+url+'" width="' + width  + '" height="' + height  + '"'  + (align ? ' style="float:' + align + '"': '') +
+                    ' src="'+me.options.UEDITOR_HOME_URL+'third-party/flvplayer/flvplayer.swf?file='+url+'" width="' + width  + '" height="' + height  + '"'  + (align ? ' style="float:' + align + '"': '') +
                     ' wmode="transparent" play="true" loop="false" menu="false" allowscriptaccess="never" allowfullscreen="true" >';
                 }else{
                 	str = '<video' + (id ? ' id="' + id + '"' : '') + ' class="' + classname + ' video-js" ' + (align ? ' style="float:' + align + '"': '') +
@@ -48,14 +49,15 @@ UE.plugins['video'] = function (){
     function switchImgAndVideo(root,img2video){
         utils.each(root.getNodesByTagName(img2video ? 'img' : 'embed video'),function(node){
             var className = node.getAttr('class');
-            if(className && className.indexOf('edui-faked-video') != -1){
-                var html = creatInsertStr( img2video ? node.getAttr('_url') : node.getAttr('src'),node.getAttr('width'),node.getAttr('height'),null,node.getStyle('float') || '',className,img2video ? 'embed':'image');
+            //if(className && className.indexOf('edui-faked-video') != -1){
+            		var type = ( node.getAttr('_url').indexOf(me.options.UEDITOR_HOME_URL)!= -1 || node.getAttr('_url').indexOf('\/')==0 || node.getAttr('_url').indexOf('\\')==0 )? 'video':'embed';
+                var html = creatInsertStr( img2video ? node.getAttr('_url') : node.getAttr('src'),node.getAttr('width'),node.getAttr('height'),null,node.getStyle('float') || '',className,img2video ? type :'image');                	
                 node.parentNode.replaceChild(UE.uNode.createElement(html),node);
-            }
-            if(className && className.indexOf('edui-upload-video') != -1){
-                var html = creatInsertStr( img2video ? node.getAttr('_url') : node.getAttr('src'),node.getAttr('width'),node.getAttr('height'),null,node.getStyle('float') || '',className,img2video ? 'video':'image');
-                node.parentNode.replaceChild(UE.uNode.createElement(html),node);
-            }
+            //}
+            //if(className && className.indexOf('edui-upload-video') != -1){
+            //    var html = creatInsertStr( img2video ? node.getAttr('_url') : node.getAttr('src'),node.getAttr('width'),node.getAttr('height'),null,node.getStyle('float') || '',className,img2video ? 'video':'image');
+            //    node.parentNode.replaceChild(UE.uNode.createElement(html),node);
+            //}
         })
     }
 
@@ -139,7 +141,6 @@ UE.plugins['video'] = function (){
             if(me.fireEvent('beforeinsertvideo', videoObjs) === true){
                 return;
             }
-
             var html = [],id = 'tmpVedio', cl;
             for(var i=0,vi,len = videoObjs.length;i<len;i++){
                 vi = videoObjs[i];
